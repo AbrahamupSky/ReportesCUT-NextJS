@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  # Servicio de la base de datos MySQL
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Cfroot19-
+      MYSQL_DATABASE: cutdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Cfroot19-
+    networks:
+      - app-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  # Servicio de la aplicación Next.js
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
