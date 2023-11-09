@@ -5,7 +5,7 @@ export async function GET(request, { params }) {
   try {
     const result = await conn.query('SELECT * FROM reportes WHERE id = ?', [params.id])
 
-    if (result.lenght === 0) {
+    if (result.length === 0) {
       return NextResponse.json(
         { 
           message: 'Reporte no encontrado' 
@@ -28,8 +28,14 @@ export async function GET(request, { params }) {
   }
 }
 
-export function DELETE() {
-  return NextResponse.json({ message: 'Eliminando un reporte' })
+export async function DELETE() {
+  const result = await conn.query('DELETE FROM reportes WHERE id = ?', [params.id])
+
+  console.log(result)
+  
+  return new Response(null, {
+    status: 204
+  })
 }
 
 export function PUT() {
